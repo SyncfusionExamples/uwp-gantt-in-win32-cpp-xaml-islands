@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputType>Library</OutputType>
+    <OutputPath>..\out\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <DebugType>full</DebugType>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <!-- Syncfusion's UWP packages only ship a uap10.0 lib folder. -->
+    <AssetTargetFallback>$(AssetTargetFallback);uap10.0.19041;uap10.0</AssetTargetFallback>
+    <NoWarn>$(NoWarn);NU1701;NU1702</NoWarn>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <!-- Emits GanttIsland.dll.config with facade binding redirects; copied into GanttHost.exe.config by build.cmd's helper. -->
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+
+  <!-- The uap10.0 build of Syncfusion.Licensing/Telemetry can't run on .NET Framework; use the net462 builds. -->
+  <Target Name="UseNetFxSyncfusionSupportDlls" AfterTargets="Build">
+    <ItemGroup>
+      <_NetFxDll Include="$(NuGetPackageRoot)syncfusion.licensing\35.2.13\lib\net462\Syncfusion.Licensing.dll" />
+      <_NetFxDll Include="$(NuGetPackageRoot)syncfusion.telemetry\35.2.13\lib\net462\Syncfusion.Telemetry.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_NetFxDll)" DestinationFolder="$(OutDir)" Condition="Exists('%(FullPath)')" />
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Toolkit.Win32.UI.XamlApplication" Version="6.1.3" />
+    <!-- Forwards the *_APP.dll UWP C++ runtime imports of the XAML Islands host to the desktop CRT. -->
+    <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
+    <PackageReference Include="Syncfusion.SfGantt.UWP" Version="35.2.13" />
+  </ItemGroup>
+
+</Project>
