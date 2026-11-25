@@ -1,0 +1,355 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Syncfusion.UI.Xaml.Gantt"
+    xmlns:navigation="using:Syncfusion.UI.Xaml.Controls.Navigation"
+    xmlns:grid="using:Syncfusion.UI.Xaml.Grid"
+    xmlns:input="using:Syncfusion.UI.Xaml.Controls.Input">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <SolidColorBrush Color="Black" x:Key="ThemeIconBrush"></SolidColorBrush>
+            <SolidColorBrush Color="White" x:Key="IconBrush"></SolidColorBrush>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush Color="White" x:Key="ThemeIconBrush"></SolidColorBrush>
+            <SolidColorBrush Color="Black" x:Key="IconBrush"></SolidColorBrush>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Syncfusion.SfGantt.UWP/Toolbar/Common.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <local:GanttDataGridCellStyleSelector x:Key="StyleSelector"></local:GanttDataGridCellStyleSelector>
+    
+    <local:OffsetValueConverter x:Key="OffsetValueConverter"></local:OffsetValueConverter>
+
+    <local:GanttLocalizationConverter x:Key="LocalizationConverter"></local:GanttLocalizationConverter>
+
+    <Style TargetType="local:GanttToolbar">
+        <Setter Property="Height" Value="48"></Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"></StackPanel>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="local:GanttToolbar">
+                    <Border Background="{TemplateBinding Background}" 
+                            Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:GanttToolbarItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ColorAnimation Duration="0" Storyboard.TargetName="bordercolor" 
+                                                        Storyboard.TargetProperty="Color" To="DarkGray" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PointerPressed">
+                                    <Storyboard>
+                                        <ColorAnimation Duration="0" Storyboard.TargetName="bordercolor" 
+                                                        Storyboard.TargetProperty="Color" To="DarkGray" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" Storyboard.TargetName="Border" 
+                                                        Storyboard.TargetProperty="Opacity" To="0.5" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <StackPanel.Background>
+                            <SolidColorBrush x:Name="bordercolor" Color="Transparent"></SolidColorBrush>
+                        </StackPanel.Background>
+                        <Border x:Name="Border"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="48" Height="48">
+                            <ContentPresenter x:Name="ContentPresenter" Content="{Binding Icon}"></ContentPresenter>
+                        </Border>
+                        <TextBlock FontFamily="Segoe UI" Visibility="{Binding LabelVisibility}" FontSize="15" TextAlignment="Center" VerticalAlignment="Center" Text="{Binding Label}"></TextBlock>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:GanttDialog">
+        <Setter Property="MaxWidth" Value="600"></Setter>
+        <Setter Property="Background" Value="{StaticResource ThemeIconBrush}" ></Setter>
+        <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Setter Property="FullSizeDesired" Value="True"></Setter>
+        <Setter Property="IsPrimaryButtonEnabled" Value="False"></Setter>
+        <Setter Property="IsSecondaryButtonEnabled" Value="False"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:GanttDialog">
+                    <Border x:Name="Container">
+                        <Grid x:Name="LayoutRoot">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="BackgroundElement"
+                                    Background="{TemplateBinding Background}"
+                                    FlowDirection="{TemplateBinding FlowDirection}"
+                                    BorderThickness="{ThemeResource ContentDialogBorderWidth}"
+                                    BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
+                                    MaxWidth="{TemplateBinding MaxWidth}"
+                                    MaxHeight="{TemplateBinding MaxHeight}"
+                                    MinWidth="{TemplateBinding MinWidth}"
+                                    MinHeight="{TemplateBinding MinHeight}" >
+                                <Grid x:Name="DialogSpace" Height="460" VerticalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <ScrollViewer x:Name="ContentScrollViewer"
+                                                  HorizontalScrollBarVisibility="Disabled"
+                                                  VerticalScrollBarVisibility="Disabled"
+                                                  ZoomMode="Disabled"
+                                                  Margin="{ThemeResource ContentDialogContentScrollViewerMargin}"
+                                                  IsTabStop="False">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <ContentControl x:Name="Title" Margin="{ThemeResource ContentDialogTitleMargin}"
+                                                            Content="{TemplateBinding Title}"
+                                                            ContentTemplate="{TemplateBinding TitleTemplate}"
+                                                            FontSize="20"
+                                                            FontFamily="XamlAutoFontFamily"
+                                                            FontWeight="Normal"
+                                                            Foreground="{TemplateBinding Foreground}"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Top"
+                                                            IsTabStop="False"
+                                                            MaxHeight="{ThemeResource ContentDialogTitleMaxHeight}" >
+                                                <ContentControl.Template>
+                                                    <ControlTemplate TargetType="ContentControl">
+                                                        <ContentPresenter Content="{TemplateBinding Content}"
+                                                                          MaxLines="2"
+                                                                          TextWrapping="Wrap"
+                                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                          Margin="{TemplateBinding Padding}"
+                                                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" >
+                                                        </ContentPresenter>
+                                                    </ControlTemplate>
+                                                </ContentControl.Template>
+                                            </ContentControl>
+                                            <ContentPresenter x:Name="Content"
+                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                              FontSize="{ThemeResource ControlContentThemeFontSize}"
+                                                              FontFamily="{ThemeResource ContentControlThemeFontFamily}"                                                              
+                                                              Foreground="{TemplateBinding Foreground}"
+                                                              Grid.Row="1"
+                                                              TextWrapping="Wrap" >
+                                                <Grid Margin="0" x:Name="mainGrid">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="50" />
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height='80'/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid x:Name="childGrid" Grid.Row="0" Height="72">
+                                                        <TextBlock Margin="24,0,0,0" x:Name="Header" FontSize='34' Foreground='#0078d7' HorizontalAlignment = 'Left' FontFamily = 'SegoeUI' FontWeight = 'Light' Height = '40' VerticalAlignment = 'Center' />
+                                                        <Button FontSize='10' Background="Transparent" Width="40" Height="40"  Style="{StaticResource CloseButtonsStyle}" x:Name='Close' HorizontalAlignment = 'Right' HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment = 'Top' >
+                                                            <Button.Foreground>
+                                                                <SolidColorBrush Color="#000000" Opacity="0.8"></SolidColorBrush>
+                                                            </Button.Foreground>
+                                                            <Button.Content>
+                                                                <SymbolIcon x:Name="Symbol" MaxWidth="20" MaxHeight="20" Foreground="{TemplateBinding Foreground}" Margin='0, 0, 0, 0' Symbol='Cancel'>
+                                                                </SymbolIcon>
+                                                            </Button.Content>
+                                                        </Button>
+                                                    </Grid>
+                                                    <StackPanel Margin="24,0,24,0" HorizontalAlignment='Right' VerticalAlignment='Stretch' Orientation='Horizontal' Grid.Row='2'>
+                                                        <Button x:Name='Cancel' Style="{StaticResource ToolbarButtonsStyle}" Content="{Binding ElementName=Cancel,Converter={StaticResource LocalizationConverter}}"  Width = '100'  />
+                                                        <Button x:Name="Submit" Style="{StaticResource ToolbarButtonsStyle}" Width = '100' Margin = '10,0,0,0' />
+                                                    </StackPanel>
+                                                    <navigation:SfTabControl Margin="24,0,24,0"  x:Name='tabControl' Grid.Row='1' SelectedIndex='0'>
+                                                            <navigation:SfTabControl.ContentTransitions>
+                                                                <TransitionCollection>
+                                                                    <NavigationThemeTransition></NavigationThemeTransition>
+                                                                </TransitionCollection>
+                                                            </navigation:SfTabControl.ContentTransitions>
+                                                        <navigation:SfTabItem FontSize='16' HorizontalAlignment='Left' Padding='0' FontWeight='Bold'>
+                                                            <navigation:SfTabItem.Header>
+                                                                <TextBlock x:Name='General' Margin="0,15,0,0" Text='{Binding ElementName=General,Converter={StaticResource LocalizationConverter}}' />
+                                                            </navigation:SfTabItem.Header>
+                                                            <ScrollViewer HorizontalScrollBarVisibility='Auto' Grid.Row='1' VerticalScrollBarVisibility='Auto'>
+                                                                <Grid MaxWidth="500" MinHeight="250">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height='Auto'/>
+                                                                        <RowDefinition Height='Auto'/>
+                                                                        <RowDefinition Height='Auto'/>
+                                                                        <RowDefinition Height='Auto'/>
+                                                                        <RowDefinition Height='Auto'/>
+                                                                        <RowDefinition Height='Auto'/>
+                                                                        <RowDefinition Height='Auto'/>
+                                                                        <RowDefinition Height='Auto'/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition />
+                                                                        <ColumnDefinition />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock x:Name='ID' Margin="0,5,0,0" Text="{Binding ElementName=ID,Converter={StaticResource LocalizationConverter}}" Grid.Row='0' Height='32' Grid.Column='0' />
+                                                                    <TextBox Text='{Binding ID, Mode = TwoWay}' x:Name="IDText" Grid.Row='1'  Height = '32' FontSize = '16' Grid.Column = '0' />
+                                                                    <TextBlock x:Name='Name' Margin="10,5,7,0" Text="{Binding ElementName=Name,Converter={StaticResource LocalizationConverter}}" Grid.Row='0' Height='32'  Grid.Column='1'/>
+                                                                    <TextBox Text='{Binding Name, Mode = TwoWay}' x:Name='NameBox' Grid.Row='1' Margin='10,0,0,0' Height='32' Grid.Column='1' />
+                                                                    <TextBlock x:Name='StartDate' Text="{Binding ElementName=StartDate,Converter={StaticResource LocalizationConverter}}" Grid.Row='2' Margin='0, 20, 0, 0'  Grid.Column = '0' />
+                                                                    <input:SfDatePicker Style="{StaticResource PickerStyle}" x:Name="StartDatePicker" FontSize ='16' Width='250' DateTime='{Binding StartDate, Mode = TwoWay}'  Grid.Column='0' Margin='0,7,0,0' FormatString="ddd, dd MMM yyyy"  AccentBrush='SlateBlue' Grid.Row='3' />
+                                                                    <TextBlock x:Name='FinishDate' Text='{Binding ElementName=FinishDate,Converter={StaticResource LocalizationConverter}}' Grid.Row='2' Grid.Column = '1'  Margin='15, 20, 0, 0' />
+                                                                    <input:SfDatePicker Width='240' x:Name="EndDatePicker" Style="{StaticResource PickerStyle}" DateTime='{Binding FinishDate, Mode = TwoWay}' AccentBrush = 'SlateBlue' Grid.Row = '3' Margin='10, 7, 0, 0' FormatString = "ddd, dd MMM yyyy"  Grid.Column = '1' />
+                                                                    <TextBlock x:Name='Progress' Text='{Binding ElementName=Progress,Converter={StaticResource LocalizationConverter}}' Grid.Row='4' Grid.Column = '0' Height='32'  Margin = '0, 20, 0, 0' />
+                                                                    <input:SfNumericUpDown x:Name="ProgressPicker"  Style="{StaticResource DefaultSfNumericUpDownStyle}" Value='{ Binding Progress, Mode = TwoWay}' Grid.Column = '0'  BlockCharactersOnTextInput = 'True' Minimum = '0' Maximum = '100' AccentBrush = 'SlateBlue' SmallChange = '1'  MaximumNumberDecimalDigits = '0' Grid.Row = '5' />
+                                                                    <TextBlock x:Name='Duration' Text='{Binding ElementName=Duration,Converter={StaticResource LocalizationConverter}}'  Height='32' Grid.Row='4' Grid.Column = '1'  Margin = '10,20,0,0' />
+                                                                    <input:SfNumericUpDown x:Name="DurationPicker" BlockCharactersOnTextInput='True' Style="{StaticResource DefaultSfNumericUpDownStyle}" Value = '{Binding Duration, Mode=TwoWay}' Grid.Row = '5' AccentBrush = 'SlateBlue' Grid.Column = '1' Minimum = '0' Margin = '10,0,0,0' SpinButtonsAlignment = 'Right'  MaximumNumberDecimalDigits = '0' />
+                                                                    <Border Grid.ColumnSpan="2"   Height="32" Grid.Row="7">
+                                                                        <TextBlock Foreground="Red" Padding="5" VerticalAlignment="Center"  x:Name="IdValidation"></TextBlock>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </ScrollViewer>
+                                                        </navigation:SfTabItem>
+                                                        <navigation:SfTabItem FontSize='16' Padding='4' x:Name='PredecessorTab' FontWeight='Bold'>
+                                                            <navigation:SfTabItem.Header>
+                                                                <TextBlock x:Name='Predecessors'  Margin="0,15,0,0" Text="{Binding ElementName=Predecessors,Converter={StaticResource LocalizationConverter}}"/>
+                                                            </navigation:SfTabItem.Header>
+                                                            <Grid Margin="0" MinHeight="250">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height='50' />                                                                    
+                                                                    <RowDefinition Height="*" MinHeight="193">
+                                                                    </RowDefinition>
+                                                                    <RowDefinition Height='30' />                                                                    
+                                                                </Grid.RowDefinitions>
+                                                                <StackPanel Orientation='Horizontal'  Grid.Row='0'>
+                                                                    <Button Background="Transparent" Style="{StaticResource ViewButtonsStyle}" Padding='0' Height='34' HorizontalContentAlignment='Center' VerticalContentAlignment='Center' Width='100' x:Name='AddNewButton' >
+                                                                        <Button.Content>
+                                                                            <StackPanel Orientation='Horizontal'>
+                                                                                <ContentPresenter>
+                                                                                    <ContentPresenter.Content>
+                                                                                        <Path Width="20" Data="F1 M 65.3333,51.6667C 66.4095,51.6667 67.4447,51.806 68.4388,52.0833C 69.4329,52.3607 70.3613,52.7539 71.2252,53.2617C 72.0892,53.7695 72.8743,54.3776 73.582,55.0846C 74.2897,55.7917 74.8971,56.5781 75.4049,57.4414C 75.9128,58.3047 76.3053,59.2344 76.5833,60.2279C 76.8613,61.2214 77,62.2565 77,63.3333C 77,64.4101 76.8613,65.4453 76.5833,66.4388C 76.3053,67.4323 75.9128,68.362 75.4049,69.2253C 74.8971,70.0885 74.2897,70.875 73.582,71.582C 72.8743,72.2891 72.0892,72.8971 71.2252,73.4049C 70.3613,73.9128 69.4329,74.306 68.4388,74.5833C 67.4447,74.8607 66.4095,75 65.3333,75C 64.2572,75 63.222,74.8607 62.2279,74.5833C 61.2337,74.306 60.3053,73.9128 59.4413,73.4049C 58.5775,72.8971 57.7923,72.2891 57.0847,71.582C 56.3769,70.875 55.7695,70.0885 55.2617,69.2253C 54.7539,68.362 54.3613,67.4323 54.0833,66.4388C 53.8053,65.4453 53.6667,64.4101 53.6667,63.3333C 53.6667,62.2565 53.8053,61.2214 54.0833,60.2279C 54.3613,59.2344 54.7539,58.3047 55.2617,57.4414C 55.7695,56.5781 56.3769,55.7917 57.0847,55.0846C 57.7923,54.3776 58.5775,53.7695 59.4413,53.2617C 60.3053,52.7539 61.2337,52.3607 62.2279,52.0833C 63.222,51.806 64.2572,51.6667 65.3333,51.6667 Z M 65.3333,73.3333C 66.2532,73.3333 67.1387,73.2135 67.9896,72.9753C 68.8405,72.737 69.6367,72.3997 70.3789,71.9661C 71.1211,71.5325 71.7963,71.0117 72.4036,70.4036C 73.0111,69.7956 73.5319,69.1211 73.9661,68.3789C 74.4004,67.6367 74.7363,66.8398 74.9752,65.9896C 75.2141,65.1393 75.3333,64.2539 75.3333,63.3333C 75.3333,62.4128 75.2141,61.5273 74.9752,60.6771C 74.7363,59.8268 74.4004,59.0299 73.9661,58.2878C 73.5319,57.5456 73.0111,56.8711 72.4036,56.263C 71.7963,55.6549 71.1211,55.1341 70.3789,54.7005C 69.6367,54.2669 68.8405,53.9297 67.9896,53.6914C 67.1387,53.4531 66.2532,53.3333 65.3333,53.3333C 64.4133,53.3333 63.528,53.4531 62.6771,53.6914C 61.8261,53.9297 61.0299,54.2669 60.2877,54.7005C 59.5456,55.1341 58.8704,55.6549 58.2631,56.263C 57.6556,56.8711 57.1348,57.5456 56.7005,58.2878C 56.2663,59.0299 55.9303,59.8268 55.6913,60.6771C 55.4524,61.5273 55.3333,62.4128 55.3333,63.3333C 55.3333,64.2539 55.4524,65.1393 55.6913,65.9896C 55.9303,66.8398 56.2663,67.6367 56.7005,68.3789C 57.1348,69.1211 57.6556,69.7956 58.2631,70.4036C 58.8704,71.0117 59.5456,71.5325 60.2877,71.9661C 61.0299,72.3997 61.8261,72.737 62.6771,72.9753C 63.528,73.2135 64.4133,73.3333 65.3333,73.3333 Z M 66.1667,62.5L 70.3333,62.5L 70.3333,64.1667L 66.1667,64.1667L 66.1667,68.3333L 64.5,68.3333L 64.5,64.1667L 60.3333,64.1667L 60.3333,62.5L 64.5,62.5L 64.5,58.3333L 66.1667,58.3333L 66.1667,62.5 Z" 
+                                                                                              Fill="{StaticResource IconBrush}" Height="20"
+                                                                                              RenderTransformOrigin="-1.486,-1.4"
+                                                                                              HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="Fill"  />
+                                                                                    </ContentPresenter.Content>
+                                                                                </ContentPresenter>
+                                                                                <TextBlock x:Name="AddNewPredecessor" Text="{Binding ElementName=AddNewPredecessor,Converter={StaticResource LocalizationConverter}}" Margin='5, 0, 0, 0'  VerticalAlignment='Stretch' HorizontalAlignment='Stretch' />
+                                                                            </StackPanel>
+                                                                        </Button.Content>
+                                                                    </Button>
+                                                                    <Button Background="Transparent" Padding='0' Height='34' Style="{StaticResource ViewButtonsStyle}" x:Name='RemoveButton' HorizontalContentAlignment='Center' VerticalContentAlignment='Center' Opacity='0.5' Width='100' IsEnabled='False' Margin='32, 0, 0, 0'>
+                                                                        <Button.Content>
+                                                                            <StackPanel VerticalAlignment='Center' Margin='0' Orientation='Horizontal'>
+                                                                                <Path Stretch="Fill" Fill="{StaticResource IconBrush}" Data="F1 M 65.1389,74.8402C 64.0628,74.8402 63.0275,74.7008 62.0334,74.4235C 61.0393,74.1461 60.1109,73.7529 59.2469,73.2451C 58.383,72.7373 57.5978,72.1292 56.8902,71.4222C 56.1825,70.7152 55.575,69.9287 55.0673,69.0654C 54.5594,68.2021 54.1669,67.2725 53.8889,66.279C 53.6109,65.2855 53.4722,64.2503 53.4722,63.1735C 53.4722,62.0967 53.6109,61.0615 53.8889,60.068C 54.1669,59.0745 54.5594,58.1449 55.0673,57.2816C 55.575,56.4183 56.1825,55.6318 56.8902,54.9248C 57.5978,54.2178 58.383,53.6097 59.2469,53.1019C 60.1109,52.5941 61.0393,52.2008 62.0334,51.9235C 63.0275,51.6462 64.0628,51.5068 65.1389,51.5068C 66.215,51.5068 67.2502,51.6462 68.2444,51.9235C 69.2385,52.2008 70.1669,52.5941 71.0308,53.1019C 71.8948,53.6097 72.68,54.2178 73.3876,54.9248C 74.0953,55.6318 74.7026,56.4183 75.2105,57.2816C 75.7184,58.1449 76.1109,59.0745 76.3889,60.068C 76.6669,61.0615 76.8055,62.0967 76.8055,63.1735C 76.8055,64.2503 76.6669,65.2855 76.3889,66.279C 76.1109,67.2725 75.7184,68.2021 75.2105,69.0654C 74.7026,69.9287 74.0953,70.7152 73.3876,71.4222C 72.68,72.1292 71.8948,72.7373 71.0308,73.2451C 70.1669,73.7529 69.2385,74.1461 68.2444,74.4235C 67.2502,74.7008 66.215,74.8402 65.1389,74.8402 Z M 65.1389,53.1735C 64.219,53.1735 63.3335,53.2933 62.4826,53.5316C 61.6317,53.7699 60.8356,54.1071 60.0933,54.5407C 59.3512,54.9743 58.6759,55.4951 58.0686,56.1032C 57.4612,56.7113 56.9403,57.3857 56.5061,58.1279C 56.0718,58.8701 55.7358,59.667 55.4969,60.5173C 55.258,61.3675 55.1389,62.2529 55.1389,63.1735C 55.1389,64.0941 55.258,64.9795 55.4969,65.8298C 55.7358,66.68 56.0718,67.4769 56.5061,68.2191C 56.9403,68.9613 57.4612,69.6357 58.0686,70.2438C 58.6759,70.8519 59.3512,71.3727 60.0933,71.8063C 60.8356,72.2399 61.6317,72.5771 62.4826,72.8154C 63.3335,73.0537 64.219,73.1735 65.1389,73.1735C 66.0587,73.1735 66.9442,73.0537 67.7952,72.8154C 68.6461,72.5771 69.4422,72.2399 70.1845,71.8063C 70.9266,71.3727 71.6018,70.8519 72.2091,70.2438C 72.8166,69.6357 73.3374,68.9613 73.7717,68.2191C 74.206,67.4769 74.5418,66.68 74.7808,65.8298C 75.0197,64.9795 75.1389,64.0941 75.1389,63.1735C 75.1389,62.2529 75.0197,61.3675 74.7808,60.5173C 74.5418,59.667 74.206,58.8701 73.7717,58.1279C 73.3374,57.3857 72.8166,56.7113 72.2091,56.1032C 71.6018,55.4951 70.9266,54.9743 70.1845,54.5407C 69.4422,54.1071 68.6461,53.7699 67.7952,53.5316C 66.9442,53.2933 66.0587,53.1735 65.1389,53.1735 Z M 70.1389,64.0068L 60.1389,64.0068L 60.1389,62.3402L 70.1389,62.3402L 70.1389,64.0068 Z" HorizontalAlignment="Left" Width="23.34" Height="20"/>
+                                                                                <TextBlock x:Name="RemovePredecessor" Text="{Binding ElementName=RemovePredecessor,Converter={StaticResource LocalizationConverter}}" Margin='5, 0, 0, 0' />
+                                                                            </StackPanel>
+                                                                        </Button.Content>
+                                                                    </Button>
+                                                                </StackPanel>
+                                                                <grid:SfDataGrid MaxHeight="193" Margin="0" BorderThickness="0.5"  CellStyleSelector="{StaticResource StyleSelector}" LiveDataUpdateMode="AllowDataShaping" x:Name='PredecessorGrid'  CurrentCellBorderThickness="0" Width="500" AllowFiltering = 'False' Grid.Row='1' AllowSorting = 'False'   ShowRowHeader = 'False' AutoGenerateColumns = 'False' >
+                                                                    <grid:SfDataGrid.Columns>
+                                                                        <grid:GridTextColumn HorizontalHeaderContentAlignment="Left" TextAlignment="DetectFromContent" MinimumWidth="75" MappingName="ID" ColumnSizer="SizeToHeader" AllowEditing="False"></grid:GridTextColumn>
+                                                                        <local:PredecessorColumn HorizontalHeaderContentAlignment="Left" AllowEditing="True" MappingName="Relationship" ColumnSizer="AutoWithLastColumnFill" MinimumWidth="170" ></local:PredecessorColumn>
+                                                                        <grid:GridTextColumn HorizontalHeaderContentAlignment="Left" TextAlignment="DetectFromContent" MinimumWidth="75" DisplayBinding="{Binding Offset, Converter={StaticResource OffsetValueConverter}}" MappingName="Offset" ColumnSizer="SizeToHeader" AllowEditing="True"></grid:GridTextColumn>
+                                                                    </grid:SfDataGrid.Columns>
+                                                                </grid:SfDataGrid>
+                                                                <Border Grid.Row="2" Margin="0,10,0,0">
+                                                                    <TextBlock  x:Name="InvalidTextBlock" TextTrimming="WordEllipsis" Foreground="Red"></TextBlock>
+                                                                </Border>
+                                                            </Grid>
+                                                        </navigation:SfTabItem>
+                                                        <navigation:SfTabItem Padding='4' x:Name="ResourceTab" FontSize='16' FontWeight='Bold'>
+                                                            <navigation:SfTabItem.Header>
+                                                                <TextBlock x:Name='Resources'  Margin="0,15,0,0" Text="{Binding ElementName=Resources,Converter={StaticResource LocalizationConverter}}" />
+                                                            </navigation:SfTabItem.Header>
+                                                            <Grid MinHeight="250">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height='50' />
+                                                                    <RowDefinition Height="*" MinHeight="223" />
+                                                                </Grid.RowDefinitions>
+                                                                <StackPanel Orientation='Horizontal' Grid.Row='0'>
+                                                                    <Button Background="Transparent" Padding='0' Style="{StaticResource ViewButtonsStyle}" Height='34' HorizontalContentAlignment='Center' VerticalContentAlignment='Center' Width='100' x:Name='AddResources' >
+                                                                        <Button.Content>
+                                                                            <StackPanel Orientation='Horizontal'>
+                                                                                <ContentPresenter>
+                                                                                    <ContentPresenter.Content>
+                                                                                        <Path Width="20" Data="F1 M 65.3333,51.6667C 66.4095,51.6667 67.4447,51.806 68.4388,52.0833C 69.4329,52.3607 70.3613,52.7539 71.2252,53.2617C 72.0892,53.7695 72.8743,54.3776 73.582,55.0846C 74.2897,55.7917 74.8971,56.5781 75.4049,57.4414C 75.9128,58.3047 76.3053,59.2344 76.5833,60.2279C 76.8613,61.2214 77,62.2565 77,63.3333C 77,64.4101 76.8613,65.4453 76.5833,66.4388C 76.3053,67.4323 75.9128,68.362 75.4049,69.2253C 74.8971,70.0885 74.2897,70.875 73.582,71.582C 72.8743,72.2891 72.0892,72.8971 71.2252,73.4049C 70.3613,73.9128 69.4329,74.306 68.4388,74.5833C 67.4447,74.8607 66.4095,75 65.3333,75C 64.2572,75 63.222,74.8607 62.2279,74.5833C 61.2337,74.306 60.3053,73.9128 59.4413,73.4049C 58.5775,72.8971 57.7923,72.2891 57.0847,71.582C 56.3769,70.875 55.7695,70.0885 55.2617,69.2253C 54.7539,68.362 54.3613,67.4323 54.0833,66.4388C 53.8053,65.4453 53.6667,64.4101 53.6667,63.3333C 53.6667,62.2565 53.8053,61.2214 54.0833,60.2279C 54.3613,59.2344 54.7539,58.3047 55.2617,57.4414C 55.7695,56.5781 56.3769,55.7917 57.0847,55.0846C 57.7923,54.3776 58.5775,53.7695 59.4413,53.2617C 60.3053,52.7539 61.2337,52.3607 62.2279,52.0833C 63.222,51.806 64.2572,51.6667 65.3333,51.6667 Z M 65.3333,73.3333C 66.2532,73.3333 67.1387,73.2135 67.9896,72.9753C 68.8405,72.737 69.6367,72.3997 70.3789,71.9661C 71.1211,71.5325 71.7963,71.0117 72.4036,70.4036C 73.0111,69.7956 73.5319,69.1211 73.9661,68.3789C 74.4004,67.6367 74.7363,66.8398 74.9752,65.9896C 75.2141,65.1393 75.3333,64.2539 75.3333,63.3333C 75.3333,62.4128 75.2141,61.5273 74.9752,60.6771C 74.7363,59.8268 74.4004,59.0299 73.9661,58.2878C 73.5319,57.5456 73.0111,56.8711 72.4036,56.263C 71.7963,55.6549 71.1211,55.1341 70.3789,54.7005C 69.6367,54.2669 68.8405,53.9297 67.9896,53.6914C 67.1387,53.4531 66.2532,53.3333 65.3333,53.3333C 64.4133,53.3333 63.528,53.4531 62.6771,53.6914C 61.8261,53.9297 61.0299,54.2669 60.2877,54.7005C 59.5456,55.1341 58.8704,55.6549 58.2631,56.263C 57.6556,56.8711 57.1348,57.5456 56.7005,58.2878C 56.2663,59.0299 55.9303,59.8268 55.6913,60.6771C 55.4524,61.5273 55.3333,62.4128 55.3333,63.3333C 55.3333,64.2539 55.4524,65.1393 55.6913,65.9896C 55.9303,66.8398 56.2663,67.6367 56.7005,68.3789C 57.1348,69.1211 57.6556,69.7956 58.2631,70.4036C 58.8704,71.0117 59.5456,71.5325 60.2877,71.9661C 61.0299,72.3997 61.8261,72.737 62.6771,72.9753C 63.528,73.2135 64.4133,73.3333 65.3333,73.3333 Z M 66.1667,62.5L 70.3333,62.5L 70.3333,64.1667L 66.1667,64.1667L 66.1667,68.3333L 64.5,68.3333L 64.5,64.1667L 60.3333,64.1667L 60.3333,62.5L 64.5,62.5L 64.5,58.3333L 66.1667,58.3333L 66.1667,62.5 Z" 
+                                                                                              Fill="{StaticResource IconBrush}" Height="20"
+                                                                                              RenderTransformOrigin="-1.486,-1.4"
+                                                                                              HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="Fill"  />
+                                                                                    </ContentPresenter.Content>
+                                                                                </ContentPresenter>
+                                                                                <TextBlock x:Name="AddNewResource" Text="{Binding ElementName=AddNewResource,Converter={StaticResource LocalizationConverter}}" Margin='5, 0, 0, 0'  VerticalAlignment='Stretch' HorizontalAlignment='Stretch' />
+                                                                            </StackPanel>
+                                                                        </Button.Content>
+                                                                    </Button>
+                                                                    <Button Background="Transparent" Padding='0' Style="{StaticResource ViewButtonsStyle}" Height='34' x:Name='RemoveResources' HorizontalContentAlignment='Center' VerticalContentAlignment='Center' Opacity='0.5' Width='100' IsEnabled='False' Margin='32, 0, 0, 0'>
+                                                                        <Button.Content>
+                                                                            <StackPanel VerticalAlignment='Center' Margin='0' Orientation='Horizontal'>
+                                                                                <Path Stretch="Fill" Fill="{StaticResource IconBrush}" Data="F1 M 65.1389,74.8402C 64.0628,74.8402 63.0275,74.7008 62.0334,74.4235C 61.0393,74.1461 60.1109,73.7529 59.2469,73.2451C 58.383,72.7373 57.5978,72.1292 56.8902,71.4222C 56.1825,70.7152 55.575,69.9287 55.0673,69.0654C 54.5594,68.2021 54.1669,67.2725 53.8889,66.279C 53.6109,65.2855 53.4722,64.2503 53.4722,63.1735C 53.4722,62.0967 53.6109,61.0615 53.8889,60.068C 54.1669,59.0745 54.5594,58.1449 55.0673,57.2816C 55.575,56.4183 56.1825,55.6318 56.8902,54.9248C 57.5978,54.2178 58.383,53.6097 59.2469,53.1019C 60.1109,52.5941 61.0393,52.2008 62.0334,51.9235C 63.0275,51.6462 64.0628,51.5068 65.1389,51.5068C 66.215,51.5068 67.2502,51.6462 68.2444,51.9235C 69.2385,52.2008 70.1669,52.5941 71.0308,53.1019C 71.8948,53.6097 72.68,54.2178 73.3876,54.9248C 74.0953,55.6318 74.7026,56.4183 75.2105,57.2816C 75.7184,58.1449 76.1109,59.0745 76.3889,60.068C 76.6669,61.0615 76.8055,62.0967 76.8055,63.1735C 76.8055,64.2503 76.6669,65.2855 76.3889,66.279C 76.1109,67.2725 75.7184,68.2021 75.2105,69.0654C 74.7026,69.9287 74.0953,70.7152 73.3876,71.4222C 72.68,72.1292 71.8948,72.7373 71.0308,73.2451C 70.1669,73.7529 69.2385,74.1461 68.2444,74.4235C 67.2502,74.7008 66.215,74.8402 65.1389,74.8402 Z M 65.1389,53.1735C 64.219,53.1735 63.3335,53.2933 62.4826,53.5316C 61.6317,53.7699 60.8356,54.1071 60.0933,54.5407C 59.3512,54.9743 58.6759,55.4951 58.0686,56.1032C 57.4612,56.7113 56.9403,57.3857 56.5061,58.1279C 56.0718,58.8701 55.7358,59.667 55.4969,60.5173C 55.258,61.3675 55.1389,62.2529 55.1389,63.1735C 55.1389,64.0941 55.258,64.9795 55.4969,65.8298C 55.7358,66.68 56.0718,67.4769 56.5061,68.2191C 56.9403,68.9613 57.4612,69.6357 58.0686,70.2438C 58.6759,70.8519 59.3512,71.3727 60.0933,71.8063C 60.8356,72.2399 61.6317,72.5771 62.4826,72.8154C 63.3335,73.0537 64.219,73.1735 65.1389,73.1735C 66.0587,73.1735 66.9442,73.0537 67.7952,72.8154C 68.6461,72.5771 69.4422,72.2399 70.1845,71.8063C 70.9266,71.3727 71.6018,70.8519 72.2091,70.2438C 72.8166,69.6357 73.3374,68.9613 73.7717,68.2191C 74.206,67.4769 74.5418,66.68 74.7808,65.8298C 75.0197,64.9795 75.1389,64.0941 75.1389,63.1735C 75.1389,62.2529 75.0197,61.3675 74.7808,60.5173C 74.5418,59.667 74.206,58.8701 73.7717,58.1279C 73.3374,57.3857 72.8166,56.7113 72.2091,56.1032C 71.6018,55.4951 70.9266,54.9743 70.1845,54.5407C 69.4422,54.1071 68.6461,53.7699 67.7952,53.5316C 66.9442,53.2933 66.0587,53.1735 65.1389,53.1735 Z M 70.1389,64.0068L 60.1389,64.0068L 60.1389,62.3402L 70.1389,62.3402L 70.1389,64.0068 Z" HorizontalAlignment="Left" Width="23.34" Height="20"/>
+                                                                                <TextBlock x:Name="RemoveResource" Text="{Binding ElementName=RemoveResource,Converter={StaticResource LocalizationConverter}}" Margin='5, 0, 0, 0' />
+                                                                            </StackPanel>
+                                                                        </Button.Content>
+                                                                    </Button>
+                                                                </StackPanel>
+                                                                <grid:SfDataGrid  MaxHeight="223" BorderThickness="0.5"  CellStyleSelector="{StaticResource StyleSelector}" Margin="0" CurrentCellBorderThickness="0" Width="500" Grid.Row='1' x:Name='ResourcesGrid' AllowFiltering = 'False' AllowSorting = 'False'  ShowRowHeader = 'false'  AutoGenerateColumns = 'False' >
+                                                                </grid:SfDataGrid>
+                                                            </Grid>
+                                                        </navigation:SfTabItem>
+                                                    </navigation:SfTabControl>
+                                                </Grid>
+                                            </ContentPresenter>
+                                        </Grid>
+                                    </ScrollViewer>
+                                    <Grid x:Name="CommandSpace" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border x:Name="Button1Host"
+                                                Margin="{ThemeResource ContentDialogButton1HostMargin}"
+                                                MinWidth="{ThemeResource ContentDialogButtonMinWidth}"
+                                                MaxWidth="{ThemeResource ContentDialogButtonMaxWidth}"
+                                                Height="{ThemeResource ContentDialogButtonHeight}"
+                                                HorizontalAlignment="Stretch" />
+                                        <Border x:Name="Button2Host"
+                                                Margin="{ThemeResource ContentDialogButton2HostMargin}"
+                                                MinWidth="{ThemeResource ContentDialogButtonMinWidth}"
+                                                MaxWidth="{ThemeResource ContentDialogButtonMaxWidth}"
+                                                Height="{ThemeResource ContentDialogButtonHeight}"
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Stretch" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
+

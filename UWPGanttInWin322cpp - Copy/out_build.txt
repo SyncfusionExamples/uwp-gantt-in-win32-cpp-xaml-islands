@@ -1,0 +1,9 @@
+Some command line switches were read from this response file:
+  C:\Program Files\Microsoft Visual Studio\18\Professional\MSBuild\Current\Bin\MSBuild.rsp
+MSBUILD : error MSB1008: Only one project can be specified.
+    Full command line: '"C:\Program Files\Microsoft Visual Studio\18\Professional\MSBuild\Current\Bin\MSBuild.exe" GanttHost.sln /restore /p:Configuration=Debug /p:Platform=x64 /v:m /nologo ; echo exit=0; type out_build.txt'
+  Switches appended by response files:
+'' came from 'C:\Program Files\Microsoft Visual Studio\18\Professional\MSBuild\Current\Bin\MSBuild.rsp'
+Switch: ;
+
+For switch syntax, type "MSBuild -help"
