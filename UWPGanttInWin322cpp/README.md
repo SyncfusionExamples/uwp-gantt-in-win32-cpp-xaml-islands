@@ -5,7 +5,7 @@ This sample shows how to host the Syncfusion **UWP Gantt (`SfGantt`)** control i
 - **How is data sent to the Gantt chart?**
 - **How do we receive events from the Gantt chart?**
 
-![Gantt hosted in a Win32 C++ window](shot_after.png)
+![Gantt hosted in a Win32 C++ window](docs/gantt-in-win32-cpp.png)
 
 ## How it works
 
